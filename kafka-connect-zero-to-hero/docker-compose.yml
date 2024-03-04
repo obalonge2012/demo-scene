@@ -100,6 +100,19 @@ services:
         #
         sleep infinity
 
+This Docker Compose configuration line for Kafka Connect sets the CONNECT_PLUGIN_PATH environment variable to specify the directories where Kafka Connect should look for its connector plugins. 
+The value is a comma-separated list of paths. Here's a breakdown of what each part means and why it's useful:
+
+/usr/share/java: This is a common directory for Java libraries and components, including Kafka Connect connectors that are bundled with the Kafka Connect image. By including this directory, 
+you're telling Kafka Connect to load any connectors that are installed in this common Java directory.
+
+/usr/share/confluent-hub-components: Confluent Hub is a marketplace for Kafka connectors, and this directory is the default location where connectors from Confluent Hub are installed. 
+If you use the Confluent Hub command-line tool to install connectors into your Kafka Connect Docker container, they will be placed in this directory. 
+Including this path means that Kafka Connect will load any connectors installed from the Confluent Hub.
+
+/data/connect-jars: This is a custom directory that you can use to store additional connector plugins. The idea here is that if you have connector plugins that are not available on 
+Confluent Hub, or if you're developing your own connectors, you can place them in this directory. This directory is especially useful for running Kafka Connect in environments where 
+you don't have internet access to download connectors on-the-fly or when you want to use a specific version of a connector that you have manually downloaded.
   ksqldb:
     # *-----------------------------*
     # To connect to ksqlDB CLI
